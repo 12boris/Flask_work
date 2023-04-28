@@ -14,8 +14,6 @@ class bots(db.Model):
     course_name = db.Column(db.String(300), nullable=False)
     course_id = db.Column(db.String(300), nullable=False)
     telegram_id = db.Column(db.String(300), nullable=False)
-    # состояние
-    state = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return '<work_with_tokens %r>' % self.bot_name
@@ -25,19 +23,17 @@ class bots(db.Model):
 def my_bots(telegram_id):
     if request.method == 'POST':
         # удаление бота
-        course_id = request.form['deleted_bots']
-        bot = bots.query.filter_by(telegram_id=telegram_id, course_id=course_id).first()
-        db.session.delete(bot)
-        db.session.commit()
-
-        # список ботов
-        bots_list = bots.query.filter_by(telegram_id=telegram_id)
-        return render_template('bots.html', bots_list=bots_list, telegram_id=telegram_id)
+        try:
+            course_id = request.form['deleted_bots']
+            bot = bots.query.filter_by(telegram_id=telegram_id, course_id=course_id).first()
+            db.session.delete(bot)
+            db.session.commit()
+        except:
+            pass
     
-    else:
-        # список ботов
-        bots_list = bots.query.filter_by(telegram_id=telegram_id)
-        return render_template('bots.html', bots_list=bots_list, telegram_id=telegram_id)
+    # список ботов
+    bots_list = bots.query.filter_by(telegram_id=telegram_id)
+    return render_template('bots.html', bots_list=bots_list, telegram_id=telegram_id)
 
 
 if __name__ == '__main__':

@@ -27,13 +27,8 @@
 
                     <div>
                         <p>состояние бота</p>
-                        <form class="form-check form-switch cancel-radio-button" action="{{ url_for('my_bots', telegram_id=telegram_id) }}" method="post">
-                            <input type="text" name="chage_state" value="{{ bot.course_id }}" style="display: none;" form=".cancel-radio-button">
-                            <input class="form-check-input bot-setting" name="change_state_value" type="checkbox" role="switch" id="flexSwitchCheckChecked"
-                            {% if bot.state %}checked{% else %}checked="False"{% endif %}>
-                            <label class="form-check-label" for="flexSwitchCheckChecked"></label>
-                            <button class="change-state-button" style="display: none;"></button>
-                        </form>
+                        <input class="form-check-input bot-setting" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked"></label>
                     </div>
                     
                     <div style="display: contents;">
@@ -57,16 +52,6 @@
     </body>
 
     <script>
-
-        // изменение состояния бота
-        let change_state_button = document.getElementsByClassName("bot-setting")
-        for (let i = 0; i < change_state_button.length; i++){
-            change_state_button[i].onclick = function(el){
-                // при переключении тумблера нажимается невидимая кнопка для отпраки формы
-                change_state_button[i].parentElement.querySelector(".change-state-button").click()
-            }
-        }
-
 
         // кнопка Подтвердить удаление
         let delete_radio_button = document.getElementsByClassName("delete-radio-button")
