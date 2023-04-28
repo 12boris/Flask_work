@@ -27,8 +27,10 @@
 
                     <div>
                         <p>состояние бота</p>
-                        <input class="form-check-input bot-setting" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                        <form class="form-check form-switch cancel-radio-button" action="{{ url_for('my_bots', telegram_id=telegram_id) }}" method="post">
+                            <input class="form-check-input bot-setting" name="change_state_value" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                            <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                        </form>
                     </div>
                     
                     <div style="display: contents;">
@@ -54,32 +56,35 @@
     <script>
 
         // кнопка Подтвердить удаление
-        let delete_radio_button = document.getElementsByClassName("delete-radio-button")
-        for (let i = 0; i < delete_radio_button.length; i++){
-            delete_radio_button[i].onclick = function(el){
+        let delete_radio_buttons = document.getElementsByClassName("delete-radio-button")
+        for (let i = 0; i < delete_radio_buttons.length; i++){
+            delete_radio_buttons[i].onclick = function(el){
                 // кнопки удаления и отмены
-                let delete_button_cont = delete_radio_button[i].parentNode
+                let delete_button_cont = delete_radio_buttons[i].parentNode
                 let delete_button = delete_button_cont.querySelector(".confirm-delete-button")
                 let cancel_button = delete_button_cont.querySelector(".cancel-button")
                 delete_button.style.display = "block"
                 cancel_button.style.display = "block"
-                delete_radio_button[i].style.display = "none"
+                delete_radio_buttons[i].style.display = "none"
 
                 // изменение тумблера состояния
-                let setting_button = delete_radio_button[i].parentNode.parentNode.querySelector(".bot-setting")
-                setting_button.checked = ""
+                let setting_button = delete_radio_buttons[i].parentNode.parentNode.querySelector(".bot-setting")
+                // фиксация значения включённости
+                let setting_button_checked = setting_button.checked
+                setting_button.checked = false
                 setting_button.disabled = "True"
-                console.log(delete_button, setting_button, cancel_button)
 
                 // изменение тумблера состояния на дефолтный при нажатии на "отмена"
                 cancel_button.onclick = function(el){
-                    console.log('dsdsds')
-                    setting_button.checked = "True"
-                    setting_button.disabled = ""
+                    setting_button.checked = setting_button_checked
+                    setting_button.disabled = false
                     delete_button.style.display = "none"
                     cancel_button.style.display = "none"
-                    delete_radio_button[i].checked = 'false'
-                    delete_radio_button[i].style.display = "block"
+                    // отключение тумблера
+                    delete_input_radio = delete_radio_buttons[i].querySelector(".form-check-input")
+                    delete_input_radio.checked = false
+
+                    delete_radio_buttons[i].style.display = "block"
                 }
             }
         }

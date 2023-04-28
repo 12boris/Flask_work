@@ -30,10 +30,15 @@ def my_bots(telegram_id):
             db.session.commit()
         except:
             pass
+
+        # список ботов
+        bots_list = bots.query.filter_by(telegram_id=telegram_id)
+        return render_template('bots.html', bots_list=bots_list, telegram_id=telegram_id)
     
-    # список ботов
-    bots_list = bots.query.filter_by(telegram_id=telegram_id)
-    return render_template('bots.html', bots_list=bots_list, telegram_id=telegram_id)
+    else:
+        # список ботов
+        bots_list = bots.query.filter_by(telegram_id=telegram_id)
+        return render_template('bots.html', bots_list=bots_list, telegram_id=telegram_id)
 
 
 if __name__ == '__main__':
